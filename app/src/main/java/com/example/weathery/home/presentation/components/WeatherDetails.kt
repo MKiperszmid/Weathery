@@ -18,6 +18,7 @@ fun WeatherDetails(
     modifier: Modifier = Modifier
 ) {
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.Start
     ) {
         AsyncImage(

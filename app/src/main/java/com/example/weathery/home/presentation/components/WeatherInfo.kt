@@ -4,8 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -19,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.request.ImageRequest
 import com.example.weathery.home.domain.model.WeatherInformation
 import com.example.weathery.home.presentation.WeatherInfoState
@@ -32,6 +37,7 @@ import com.example.weathery.ui.theme.SuccessfulBlue
 fun WeatherInfo(
     city: String,
     weatherInfoState: WeatherInfoState,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val backgroundColor = when (weatherInfoState) {
@@ -55,7 +61,7 @@ fun WeatherInfo(
         Spacer(modifier = Modifier.height(12.dp))
         when (weatherInfoState) {
             WeatherInfoState.Error -> {
-                Text(text = "Error!")
+                WeatherError(onRetry)
             }
             is WeatherInfoState.Loaded -> {
                 val information = weatherInfoState.information

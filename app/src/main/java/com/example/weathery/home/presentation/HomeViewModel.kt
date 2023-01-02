@@ -24,17 +24,27 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             supervisorScope {
                 val jobs = state.cities.keys.map { city ->
-                    updateCityInformation(city, WeatherInfoState.Loading)
                     async {
-                        getWeatherByLocationUseCase(city).onSuccess {
-                            updateCityInformation(city, WeatherInfoState.Loaded(it))
-                        }.onFailure {
-                            updateCityInformation(city, WeatherInfoState.Error)
-                        }
+                        getWeatherByCity(city)
                     }
                 }
                 jobs.awaitAll()
             }
+        }
+    }
+
+    private suspend fun getWeatherByCity(city: String) {
+        updateCityInformation(city, WeatherInfoState.Loading)
+        getWeatherByLocationUseCase(city).onSuccess {
+            updateCityInformation(city, WeatherInfoState.Loaded(it))
+        }.onFailure {
+            updateCityInformation(city, WeatherInfoState.Error)
+        }
+    }
+
+    fun retry(city: String) {
+        viewModelScope.launch {
+            getWeatherByCity(city)
         }
     }
 

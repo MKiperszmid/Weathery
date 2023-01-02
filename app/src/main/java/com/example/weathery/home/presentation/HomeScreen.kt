@@ -17,7 +17,9 @@ fun HomeScreen(
         state.cities.keys.map { city ->
             item {
                 val weatherInfoState = state.cities[city] ?: return@item
-                WeatherInfo(city, weatherInfoState = weatherInfoState)
+                WeatherInfo(city, weatherInfoState = weatherInfoState, onRetry = {
+                    viewModel.retry(city)
+                })
             }
         }
     }
