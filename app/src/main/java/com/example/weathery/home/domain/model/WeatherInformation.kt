@@ -5,5 +5,7 @@ data class WeatherInformation(
     val minimumTemperature: Double,
     val maximumTemperature: Double,
     val windSpeed: Double,
-    val image: String
+    val image: String,
+    val latitude: Double,
+    val longitude: Double
 )

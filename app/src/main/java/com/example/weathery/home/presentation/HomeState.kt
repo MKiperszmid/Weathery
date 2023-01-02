@@ -1,11 +1,21 @@
 package com.example.weathery.home.presentation
 
+import com.example.weathery.home.domain.model.WeatherInformation
+
 data class HomeState(
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val defaultCities: List<String> = cities
+    val defaultCities: Map<String, WeatherInfoState> = citiesMap
 )
 
-private val cities = listOf(
-    "Montevideo", "Sao Paulo", "Buenos Aires", "London", "Munich"
+data class WeatherInfoState(
+    val isLoading: Boolean = false,
+    val information: WeatherInformation? = null
 )
+
+private val citiesMap = mapOf(
+    "Montevideo" to WeatherInfoState(),
+    "Sao Paulo" to WeatherInfoState(),
+    "Buenos Aires" to WeatherInfoState(),
+    "London" to WeatherInfoState(),
+    "Munich" to WeatherInfoState(),
+)
+

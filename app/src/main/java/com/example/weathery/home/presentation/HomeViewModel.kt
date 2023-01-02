@@ -23,17 +23,26 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             supervisorScope {
-                val jobs = state.defaultCities.map {
+                val jobs = state.defaultCities.keys.map { city ->
+                    updateCityInformation(city, WeatherInfoState(isLoading = true))
                     async {
-                        getWeatherByLocationUseCase(it).onSuccess {
-                            println()
+                        getWeatherByLocationUseCase(city).onSuccess {
+                            updateCityInformation(city, WeatherInfoState(isLoading = false, information = it))
                         }.onFailure {
-                            println()
+                            updateCityInformation(city, WeatherInfoState(isLoading = false, information = null))
                         }
                     }
                 }
                 jobs.awaitAll()
             }
         }
+    }
+
+    private fun updateCityInformation(city: String, information: WeatherInfoState) {
+        val map = state.defaultCities.toMutableMap()
+        map[city] = information
+        state = state.copy(
+            defaultCities = map
+        )
     }
 }

@@ -9,6 +9,8 @@ fun WeatherInfoDto.toDomain(): WeatherInformation {
         minimumTemperature = this.main.temp_min,
         maximumTemperature = this.main.temp_max,
         windSpeed = wind.speed,
-        image = "http://openweathermap.org/img/wn/${this.weather.first().icon}@2x.png"
+        image = "http://openweathermap.org/img/wn/${this.weather.first().icon}@2x.png",
+        longitude = this.coord.lon,
+        latitude = this.coord.lat
     )
 }
