@@ -20,9 +20,7 @@ fun WeatherDescription(
     ) {
         WeatherDetails(information)
         TemperatureInformation(
-            currentTemperature = information.currentTemperature,
-            minimumTemperature = information.minimumTemperature,
-            maximumTemperature = information.maximumTemperature
+            temperature = information.temperature
         )
     }
 

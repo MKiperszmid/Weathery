@@ -1,12 +1,14 @@
 package com.example.weathery.home.domain.model
 
 data class WeatherInformation(
-    val currentTemperature: Double,
-    val minimumTemperature: Double,
-    val maximumTemperature: Double,
+    val temperature: Temperature,
     val windSpeed: Double,
     val image: String,
-    val weatherType: String,
-    val latitude: Double,
-    val longitude: Double
+    val weatherType: String
+)
+
+data class Temperature(
+    val current: Double,
+    val minimum: Double,
+    val maximum: Double,
 )

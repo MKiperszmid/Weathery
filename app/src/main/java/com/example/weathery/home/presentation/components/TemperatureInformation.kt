@@ -7,28 +7,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import com.example.weathery.home.domain.model.Temperature
 
 @Composable
 fun TemperatureInformation(
-    currentTemperature: Double,
-    minimumTemperature: Double,
-    maximumTemperature: Double,
+    temperature: Temperature,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.Start) {
         // ToInt so we don't display decimals
         Text(
-            text = "${currentTemperature.toInt()}°",
+            text = "${temperature.current.toInt()}°",
             color = Color.White,
             fontSize = 40.sp
         )
         Text(
-            text = "Min: ${minimumTemperature.toInt()}°",
+            text = "Min: ${temperature.minimum.toInt()}°",
             color = Color.White.copy(alpha = 0.6f),
             fontSize = 12.sp
         )
         Text(
-            text = "Max: ${maximumTemperature.toInt()}°",
+            text = "Max: ${temperature.maximum.toInt()}°",
             color = Color.White.copy(alpha = 0.6f),
             fontSize = 12.sp
         )
