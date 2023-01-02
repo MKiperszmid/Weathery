@@ -90,6 +90,11 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
 
+    // Location
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // Permissions
+    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
 
     testImplementation "io.mockk:mockk:1.13.3"
     testImplementation 'junit:junit:4.13.2'

@@ -1,18 +1,19 @@
 package com.example.weathery.home.presentation
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weathery.home.domain.usecase.GetWeatherByCoordinatesUseCase
-import com.example.weathery.home.domain.usecase.GetWeatherByLocationUseCase
 import com.example.weathery.home.domain.usecase.HomeUseCases
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,13 +25,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            supervisorScope {
-                val jobs = state.cities.keys.map { city ->
-                    async {
-                        getWeatherByCity(city)
-                    }
+            state.cities.keys.map { city ->
+                async {
+                    getWeatherByCity(city)
                 }
-                jobs.awaitAll()
             }
         }
     }
@@ -41,6 +39,40 @@ class HomeViewModel @Inject constructor(
             updateCityInformation(city, WeatherInfoState.Loaded(it))
         }.onFailure {
             updateCityInformation(city, WeatherInfoState.Error)
+        }
+    }
+
+    fun getWeatherFromCurrentLocation(context: Context) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            state = state.copy(
+                currentLocation = WeatherInfoState.Error
+            )
+            return
+        }
+
+        val locationProvider = LocationServices.getFusedLocationProviderClient(context)
+        locationProvider.lastLocation.addOnSuccessListener { location ->
+            viewModelScope.launch {
+                state = state.copy(
+                    currentLocation = WeatherInfoState.Loading
+                )
+                useCases.getWeatherByCoordinates(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                ).onSuccess {
+                    state = state.copy(
+                        currentLocation = WeatherInfoState.Loaded(it)
+                    )
+                }.onFailure {
+                    state = state.copy(
+                        currentLocation = WeatherInfoState.Error
+                    )
+                }
+            }
         }
     }
 

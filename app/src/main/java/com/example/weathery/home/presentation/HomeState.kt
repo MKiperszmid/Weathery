@@ -3,7 +3,8 @@ package com.example.weathery.home.presentation
 import com.example.weathery.home.domain.model.WeatherInformation
 
 data class HomeState(
-    val cities: Map<String, WeatherInfoState> = citiesMap
+    val cities: Map<String, WeatherInfoState> = citiesMap,
+    val currentLocation: WeatherInfoState = WeatherInfoState.Loading
 )
 
 private val citiesMap = mapOf(
