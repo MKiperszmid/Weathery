@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weathery.home.presentation.HomeScreen
+import com.example.weathery.ui.theme.Background
 import com.example.weathery.ui.theme.WeatheryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,10 +24,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WeatheryTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = Background
                 ) {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "home") {

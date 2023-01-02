@@ -88,7 +88,7 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
     // Coil
-    implementation("io.coil-kt:coil-compose:2.2.1")
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'

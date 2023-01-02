@@ -23,13 +23,13 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             supervisorScope {
-                val jobs = state.defaultCities.keys.map { city ->
-                    updateCityInformation(city, WeatherInfoState(isLoading = true))
+                val jobs = state.cities.keys.map { city ->
+                    updateCityInformation(city, WeatherInfoState.Loading)
                     async {
                         getWeatherByLocationUseCase(city).onSuccess {
-                            updateCityInformation(city, WeatherInfoState(isLoading = false, information = it))
+                            updateCityInformation(city, WeatherInfoState.Loaded(it))
                         }.onFailure {
-                            updateCityInformation(city, WeatherInfoState(isLoading = false, information = null))
+                            updateCityInformation(city, WeatherInfoState.Error)
                         }
                     }
                 }
@@ -39,10 +39,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun updateCityInformation(city: String, information: WeatherInfoState) {
-        val map = state.defaultCities.toMutableMap()
+        val map = state.cities.toMutableMap()
         map[city] = information
         state = state.copy(
-            defaultCities = map
+            cities = map
         )
     }
 }
