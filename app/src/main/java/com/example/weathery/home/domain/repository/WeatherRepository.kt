@@ -6,4 +6,9 @@ interface WeatherRepository {
     suspend fun getWeatherInformation(
         city: String
     ): Result<WeatherInformation>
+
+    suspend fun getWeatherByLatitudeAndLongitude(
+        latitude: Double,
+        longitude: Double
+    ): Result<WeatherInformation>
 }

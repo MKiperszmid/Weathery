@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weathery.home.domain.usecase.GetWeatherByCoordinatesUseCase
 import com.example.weathery.home.domain.usecase.GetWeatherByLocationUseCase
+import com.example.weathery.home.domain.usecase.HomeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -15,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getWeatherByLocationUseCase: GetWeatherByLocationUseCase
+    private val useCases: HomeUseCases
 ) : ViewModel() {
     var state by mutableStateOf(HomeState())
         private set
@@ -35,7 +37,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun getWeatherByCity(city: String) {
         updateCityInformation(city, WeatherInfoState.Loading)
-        getWeatherByLocationUseCase(city).onSuccess {
+        useCases.getWeatherByLocation(city).onSuccess {
             updateCityInformation(city, WeatherInfoState.Loaded(it))
         }.onFailure {
             updateCityInformation(city, WeatherInfoState.Error)

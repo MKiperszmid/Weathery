@@ -4,7 +4,9 @@ import com.example.weathery.home.data.WeatherRepositoryImpl
 import com.example.weathery.home.data.remote.ApiInterceptor
 import com.example.weathery.home.data.remote.WeatherApi
 import com.example.weathery.home.domain.repository.WeatherRepository
+import com.example.weathery.home.domain.usecase.GetWeatherByCoordinatesUseCase
 import com.example.weathery.home.domain.usecase.GetWeatherByLocationUseCase
+import com.example.weathery.home.domain.usecase.HomeUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,8 +23,11 @@ import javax.inject.Singleton
 object HomeModule {
     @Provides
     @Singleton
-    fun provideHomeUseCases(repository: WeatherRepository): GetWeatherByLocationUseCase {
-        return GetWeatherByLocationUseCase(repository)
+    fun provideHomeUseCases(repository: WeatherRepository): HomeUseCases {
+        return HomeUseCases(
+            getWeatherByCoordinates = GetWeatherByCoordinatesUseCase(repository),
+            getWeatherByLocation = GetWeatherByLocationUseCase(repository)
+        )
     }
 
     @Provides

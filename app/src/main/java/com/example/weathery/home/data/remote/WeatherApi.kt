@@ -13,4 +13,10 @@ interface WeatherApi {
     suspend fun getWeatherByLocation(
         @Query("q") city: String
     ): WeatherInfoDto
+
+    @GET("weather?units=metric")
+    suspend fun getWeatherByLatitudeAndLongitude(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+    ): WeatherInfoDto
 }

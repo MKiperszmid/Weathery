@@ -18,4 +18,16 @@ class WeatherRepositoryImpl(
             Result.failure(e)
         }
     }
+
+    override suspend fun getWeatherByLatitudeAndLongitude(
+        latitude: Double,
+        longitude: Double
+    ): Result<WeatherInformation> {
+        return try {
+            val result = api.getWeatherByLatitudeAndLongitude(latitude, longitude)
+            Result.success(result.toDomain())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
