@@ -12,7 +12,7 @@ private val citiesMap = mapOf(
     "Buenos Aires" to WeatherInfoState.Loading,
     "London" to WeatherInfoState.Loading,
     "Munich" to WeatherInfoState.Loading,
-    "asahs" to WeatherInfoState.Loading,
+    "Error Example" to WeatherInfoState.Loading,
 )
 
 sealed interface WeatherInfoState {
