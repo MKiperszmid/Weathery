@@ -9,11 +9,10 @@ class WeatherRepositoryImpl(
     private val api: WeatherApi
 ) : WeatherRepository {
     override suspend fun getWeatherInformation(
-        latitude: Double,
-        longitude: Double
+        city: String
     ): Result<WeatherInformation> {
         return try {
-            val result = api.getWeatherByLocation(latitude, longitude)
+            val result = api.getWeatherByLocation(city)
             Result.success(result.toDomain())
         } catch (e: Exception) {
             Result.failure(e)
