@@ -13,7 +13,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     init {
         viewModelScope.launch {
-            getWeatherByLocationUseCase(123.0, 123.0).onSuccess {
+            getWeatherByLocationUseCase(34.9011, 56.1645).onSuccess {
                 println()
             }.onFailure {
                 println()
