@@ -16,13 +16,12 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    val context = LocalContext.current
-
-
     val requestPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) {
-        viewModel.getWeatherFromCurrentLocation()
+    ) { isGranted ->
+        if (isGranted) {
+            viewModel.getWeatherFromCurrentLocation()
+        }
     }
 
     LaunchedEffect(true) {

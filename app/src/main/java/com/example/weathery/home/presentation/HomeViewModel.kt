@@ -45,6 +45,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getWeatherFromCurrentLocation() {
+        if (state.currentLocation is WeatherInfoState.Loaded) return
         viewModelScope.launch {
             try {
                 state = state.copy(
