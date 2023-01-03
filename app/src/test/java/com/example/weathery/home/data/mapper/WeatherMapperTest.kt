@@ -6,9 +6,9 @@ import com.example.weathery.home.domain.model.Temperature
 import com.example.weathery.home.domain.model.WeatherInformation
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import com.google.common.truth.Truth.assertThat
 
 class WeatherMapperTest {
 
@@ -42,7 +42,6 @@ class WeatherMapperTest {
             image = "https://openweathermap.org/img/wn/icon@2x.png",
             weatherType = "cloudy"
         )
-        assertEquals(expected, result)
+        assertThat(result).isEqualTo(expected)
     }
-
 }
