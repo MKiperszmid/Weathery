@@ -29,7 +29,7 @@ fun WeatherDetails(
             contentDescription = information.weatherType
         )
         Text(
-            text = information.weatherType,
+            text = information.weatherDescription,
             color = Color.White.copy(alpha = 0.6f),
             fontSize = 12.sp
         )

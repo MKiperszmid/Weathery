@@ -4,7 +4,8 @@ data class WeatherInformation(
     val temperature: Temperature,
     val windSpeed: Double,
     val image: String,
-    val weatherType: String
+    val weatherType: String,
+    val weatherDescription: String
 )
 
 data class Temperature(
