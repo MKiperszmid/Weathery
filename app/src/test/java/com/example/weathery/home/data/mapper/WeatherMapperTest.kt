@@ -16,16 +16,19 @@ class WeatherMapperTest {
 
     @Before
     fun setup() {
-        weatherDto = mockk()
+        weatherDto = mockk(relaxed = true)
         val weather = mockk<Weather>()
-        every { weather.icon }.returns("icon")
-        every { weather.main }.returns("cloudy")
+
         every { weatherDto.wind.speed }.returns(123.0)
         every { weatherDto.main.temp }.returns(10.0)
         every { weatherDto.main.temp_max }.returns(15.0)
         every { weatherDto.main.temp_min }.returns(5.0)
+        every { weatherDto.main.temp_min }.returns(5.0)
         every { weatherDto.weather }.returns(listOf(weather))
-
+        every { weatherDto.name }.returns("city")
+        every { weatherDto.weather.first().description }.returns("description")
+        every { weatherDto.weather.first().icon }.returns("icon")
+        every { weatherDto.weather.first().main }.returns("type")
     }
 
     @Test
@@ -40,7 +43,9 @@ class WeatherMapperTest {
             ),
             windSpeed = 123.0,
             image = "https://openweathermap.org/img/wn/icon@2x.png",
-            weatherType = "cloudy"
+            weatherType = "type",
+            weatherDescription = "description",
+            city = "city"
         )
         assertThat(result).isEqualTo(expected)
     }

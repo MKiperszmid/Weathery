@@ -15,7 +15,9 @@ class FakeRepository : WeatherRepository {
             ),
             windSpeed = 100.0,
             image = "image.com",
-            weatherType = "rain"
+            weatherType = "rain",
+            weatherDescription = "rainy",
+            city = "BsAs"
         )
     }
 
