@@ -1,7 +1,8 @@
 # Weathery - Weather App
 
 ## 🎥 Demo Video
-![Demo Video of the App](https://user-images.githubusercontent.com/16141845/210287387-af8095ae-ae0f-47e2-86f5-56a2c34d2a6a.gif)
+![Demo Video of the App](https://user-images.githubusercontent.com/16141845/210294160-c9b161be-d5e7-40bb-a659-6ec604379f4f.gif)
+
 
 ## 🛠 Tech Stack
 
