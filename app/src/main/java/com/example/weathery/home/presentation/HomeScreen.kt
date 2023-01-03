@@ -22,18 +22,21 @@ fun HomeScreen(
     val requestPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {
-        viewModel.getWeatherFromCurrentLocation(context)
+        viewModel.getWeatherFromCurrentLocation()
     }
 
     LaunchedEffect(true) {
         requestPermission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
     }
 
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
-            WeatherInfo("Current Location", weatherInfoState = state.currentLocation,
+            val extraName =
+                if (state.currentLocation is WeatherInfoState.Loaded) " / ${state.currentLocation.information.city}" else ""
+            WeatherInfo("Current Location$extraName", weatherInfoState = state.currentLocation,
                 onRetry = {
-                    viewModel.getWeatherFromCurrentLocation(context)
+                    viewModel.getWeatherFromCurrentLocation()
                 })
         }
         state.cities.keys.map { city ->

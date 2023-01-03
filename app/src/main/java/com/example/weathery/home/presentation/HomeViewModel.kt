@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weathery.home.domain.location.LocationProvider
 import com.example.weathery.home.domain.usecase.HomeUseCases
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val useCases: HomeUseCases
+    private val useCases: HomeUseCases,
+    private val locationProvider: LocationProvider
 ) : ViewModel() {
     var state by mutableStateOf(HomeState())
         private set
@@ -42,24 +44,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getWeatherFromCurrentLocation(context: Context) {
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            state = state.copy(
-                currentLocation = WeatherInfoState.Error
-            )
-            return
-        }
-
-        val locationProvider = LocationServices.getFusedLocationProviderClient(context)
-        locationProvider.lastLocation.addOnSuccessListener { location ->
-            viewModelScope.launch {
+    fun getWeatherFromCurrentLocation() {
+        viewModelScope.launch {
+            try {
                 state = state.copy(
                     currentLocation = WeatherInfoState.Loading
                 )
+                val location = locationProvider.getLastLocation()
                 useCases.getWeatherByCoordinates(
                     latitude = location.latitude,
                     longitude = location.longitude
@@ -72,6 +63,10 @@ class HomeViewModel @Inject constructor(
                         currentLocation = WeatherInfoState.Error
                     )
                 }
+            } catch (e: Exception) {
+                state = state.copy(
+                    currentLocation = WeatherInfoState.Error
+                )
             }
         }
     }

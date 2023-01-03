@@ -14,6 +14,7 @@ fun WeatherInfoDto.toDomain(): WeatherInformation {
         windSpeed = wind.speed,
         image = "https://openweathermap.org/img/wn/${this.weather.first().icon}@2x.png",
         weatherType = this.weather.first().main,
-        weatherDescription = this.weather.first().description
+        weatherDescription = this.weather.first().description,
+        city = this.name
     )
 }

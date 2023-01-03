@@ -1,8 +1,11 @@
 package com.example.weathery.home.di
 
+import android.app.Application
 import com.example.weathery.home.data.WeatherRepositoryImpl
+import com.example.weathery.home.data.location.LocationProviderImpl
 import com.example.weathery.home.data.remote.ApiInterceptor
 import com.example.weathery.home.data.remote.WeatherApi
+import com.example.weathery.home.domain.location.LocationProvider
 import com.example.weathery.home.domain.repository.WeatherRepository
 import com.example.weathery.home.domain.usecase.GetWeatherByCoordinatesUseCase
 import com.example.weathery.home.domain.usecase.GetWeatherByLocationUseCase
@@ -53,5 +56,11 @@ object HomeModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
             .build().create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationProvider(application: Application): LocationProvider {
+        return LocationProviderImpl(application)
     }
 }
